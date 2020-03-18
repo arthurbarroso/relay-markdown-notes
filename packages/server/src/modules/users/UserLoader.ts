@@ -5,6 +5,8 @@ import User, { UserModel } from './UserModel';
 import GraphQLContext from '../../types/GraphQLContext';
 import Note, { NoteModel } from '../notes/NoteModel';
 import { load as noteloader } from '../notes/NoteLoader';
+import Group, { GroupModel } from '../groups/GroupModel';
+import { load as groupLoader } from '../groups/GroupLoader';
 
 export default class Userind {
   id: string;
@@ -17,6 +19,12 @@ export default class Userind {
 
   password: string;
 
+  group: string;
+
+  group_owner: boolean;
+
+  admin: boolean;
+
   createdAt: Date;
 
   updatedAt: Date;
@@ -27,6 +35,9 @@ export default class Userind {
     this.username = data.username;
     this.email = data.email;
     this.password = data.password;
+    this.group = data.group;
+    this.group_owner = data.group_owner;
+    this.admin = data.admin;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
   }
@@ -90,4 +101,14 @@ export async function getNotes(
     loader: noteloader,
   });
   return t;
+}
+
+export async function getGroup(
+  parentValues: any,
+  args: any,
+  context: any,
+  info: any
+): Promise<GroupModel> {
+  const group = await Group.find({ id: parentValues.group });
+  return group;
 }

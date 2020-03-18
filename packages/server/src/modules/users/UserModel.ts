@@ -15,6 +15,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       hidden: true,
+      required: true,
     },
     email: {
       type: String,
@@ -22,7 +23,15 @@ const UserSchema = new Schema(
     },
     group: {
       type: String,
-      required: true,
+      required: false,
+    },
+    group_owner: {
+      type: Boolean,
+      default: false,
+    },
+    admin: {
+      type: Boolean,
+      default: false,
     },
   },
   {

@@ -18,7 +18,7 @@ import { UserModel } from './users/UserModel';
 import { NoteModel } from './notes/NoteModel';
 
 import { findAuthor } from './notes/NoteLoader';
-import { getNotes } from './users/UserLoader';
+import { getNotes, getGroup } from './users/UserLoader';
 import { GroupModel } from './groups/GroupModel';
 
 type UserConfigType = GraphQLObjectTypeConfig<UserModel, GraphQLContext>;
@@ -48,6 +48,18 @@ const UserTypeConfig: UserConfigType = {
     updatedAt: {
       type: GraphQLString,
       resolve: user => user.updatedAt,
+    },
+    group_owner: {
+      type: GraphQLBoolean,
+      resolve: user => user.group_owner,
+    },
+    group: {
+      type: GroupType,
+      resolve: async user => getGroup(user, '', '', ''),
+    },
+    admin: {
+      type: GraphQLBoolean,
+      resolve: user => user.admin,
     },
     notes: {
       type: NoteConnection.connectionType,
