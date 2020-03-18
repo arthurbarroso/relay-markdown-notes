@@ -5,9 +5,16 @@ import {
   GraphQLID,
 } from 'graphql';
 import { connectionArgs, globalIdField, fromGlobalId } from 'graphql-relay';
-import { NoteType, NoteConnection, UserType, UserConnection } from './rootType';
+import {
+  NoteType,
+  NoteConnection,
+  UserType,
+  UserConnection,
+  GroupConnection,
+} from './rootType';
 import { loadNotes, load } from './notes/NoteLoader';
 import { loadUsers } from './users/UserLoader';
+import { loadGroups } from './groups/GroupLoader';
 import { nodeField } from '../types/nodeInterface';
 import GraphQLContext from '../types/GraphQLContext';
 
@@ -52,6 +59,17 @@ export default new GraphQLObjectType<any, GraphQLContext, any>({
         },
       },
       resolve: async (_, args, context) => loadNotes(context, args),
+    },
+
+    groups: {
+      type: GraphQLNonNull(GroupConnection.connectionType),
+      args: {
+        ...connectionArgs,
+        search: {
+          type: GraphQLString,
+        },
+      },
+      resolve: async (_, args, context) => loadGroups(context, args),
     },
   }),
 });

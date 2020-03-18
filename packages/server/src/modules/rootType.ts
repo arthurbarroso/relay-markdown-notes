@@ -19,6 +19,7 @@ import { NoteModel } from './notes/NoteModel';
 
 import { findAuthor } from './notes/NoteLoader';
 import { getNotes } from './users/UserLoader';
+import { GroupModel } from './groups/GroupModel';
 
 type UserConfigType = GraphQLObjectTypeConfig<UserModel, GraphQLContext>;
 
@@ -113,4 +114,31 @@ export const AuthType = new GraphQLObjectType({
       type: GraphQLNonNull(GraphQLString),
     },
   },
+});
+
+type GroupConfigType = GraphQLObjectTypeConfig<GroupModel, GraphQLContext>;
+
+const GroupTypeConfig: GroupConfigType = {
+  name: 'Group',
+  description: 'Represents Group',
+  fields: () => ({
+    id: globalIdField('Group'),
+    _id: {
+      type: GraphQLNonNull(GraphQLString),
+      description: 'MongoDB _id',
+      resolve: group => group._id,
+    },
+    name: {
+      type: GraphQLString,
+      resolve: group => group.name,
+    },
+  }),
+  interfaces: () => [nodeInterface],
+};
+
+export const GroupType = new GraphQLObjectType(GroupTypeConfig);
+
+export const GroupConnection = connectionDefinitions({
+  name: 'Group',
+  nodeType: GroupType,
 });

@@ -1,6 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
 import userMutations from './users/mutations';
 import noteMutations from './notes/mutations';
+import groupMutations from './groups/mutations';
 import { authMutations } from './auth';
 
 export default new GraphQLObjectType({
@@ -9,5 +10,6 @@ export default new GraphQLObjectType({
     ...userMutations,
     ...noteMutations,
     ...authMutations,
+    ...groupMutations,
   }),
 });
