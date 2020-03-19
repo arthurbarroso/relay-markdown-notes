@@ -3,8 +3,9 @@ import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 
 import Group from '../GroupModel';
 import { load } from '../GroupLoader';
-import { GroupConnection } from '../../rootType';
+import { GroupConnection, UserConnection } from '../../rootType';
 
+import User from '../../users/UserModel';
 import hashPassword from '../../../util/hashPassword';
 import getUserId from '../../../util/getUser';
 
@@ -30,6 +31,11 @@ const mutation = mutationWithClientMutationId({
     if (!user) {
       throw new Error('You must be authenticated to perform this');
     }
+    const checkOwner = await User.findOne({ _id: user });
+    if (!checkOwner.group_owner)
+      throw new Error(
+        "You aren't a group owner, therefore you can't create a group"
+      );
     const hashed_secret = await hashPassword(secret);
     const newGroup = await Group.create({
       name,

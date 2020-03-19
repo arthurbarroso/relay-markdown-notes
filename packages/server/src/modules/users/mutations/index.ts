@@ -1,7 +1,9 @@
 import UserCreationMutation from './UserCreationMutation';
 import AssignGroupMutation from './AssignGroupMutation';
+import UserToGroupOwner from './UserToGroupOwnerMutation';
 
 export default {
   createUser: UserCreationMutation,
-  assignGRoup: AssignGroupMutation,
+  assignGroup: AssignGroupMutation,
+  userToGroupOwner: UserToGroupOwner,
 };
