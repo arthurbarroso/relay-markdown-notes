@@ -5,6 +5,7 @@ import User from '../UserModel';
 import { load } from '../UserLoader';
 import { UserConnection } from '../../rootType';
 import hashPassword from '../../../util/hashPassword';
+import Mail from '../../../util/mail';
 
 interface userArguments {
   username: string;
@@ -43,6 +44,15 @@ const mutation = mutationWithClientMutationId({
       username,
       email,
       password: hashed_pass,
+    });
+
+    await Mail.sendMail({
+      to: newUser.email,
+      subject: 'Welcome to marknotes',
+      template: 'registered',
+      context: {
+        name: newUser.username,
+      },
     });
 
     return {
