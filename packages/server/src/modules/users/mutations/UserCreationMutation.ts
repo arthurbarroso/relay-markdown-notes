@@ -6,6 +6,9 @@ import { load } from '../UserLoader';
 import { UserConnection } from '../../rootType';
 import hashPassword from '../../../util/hashPassword';
 
+import Queue from '../../../util/queue';
+import RegisteredEmail from '../../../jobs/RegisteredEmail';
+
 interface userArguments {
   username: string;
   password: string;
@@ -43,6 +46,10 @@ const mutation = mutationWithClientMutationId({
       username,
       email,
       password: hashed_pass,
+    });
+
+    await Queue.add(RegisteredEmail.key, {
+      newUser,
     });
 
     return {

@@ -1,0 +1,277 @@
+# source: http://localhost:4000
+# timestamp: Sat Mar 21 2020 15:49:28 GMT-0300 (Brasilia Standard Time)
+
+input assignGroupInput {
+  groupId: String!
+  secret: String!
+  clientMutationId: String
+}
+
+type assignGroupPayload {
+  userEdge: UserEdge
+  error: String
+  clientMutationId: String
+}
+
+input AuthInput {
+  username: String
+  password: String
+}
+
+type AuthType {
+  token: String!
+}
+
+input createGroupInput {
+  name: String!
+  secret: String!
+  clientMutationId: String
+}
+
+type createGroupPayload {
+  GroupEdge: GroupEdge
+  error: String
+  clientMutationId: String
+}
+
+input createNoteInput {
+  title: String!
+  content: String!
+  clientMutationId: String
+}
+
+type createNotePayload {
+  NoteEdge: NoteEdge
+  error: String
+  clientMutationId: String
+}
+
+input createUserInput {
+  username: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type createUserPayload {
+  userEdge: UserEdge
+  error: String
+  clientMutationId: String
+}
+
+input deleteNoteInput {
+  _id: String!
+  clientMutationId: String
+}
+
+type deleteNotePayload {
+  NoteEdge: NoteEdge
+  error: String
+  clientMutationId: String
+}
+
+"""Represents Group"""
+type Group implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """MongoDB _id"""
+  _id: String!
+  name: String
+  users: UserConnection
+  notes: NoteConnection
+}
+
+"""A connection to a list of items."""
+type GroupConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfoExtended!
+
+  """A list of edges."""
+  edges: [GroupEdge]!
+}
+
+"""An edge in a connection."""
+type GroupEdge {
+  """The item at the end of the edge"""
+  node: Group
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+input makeGroupOwnerInput {
+  userId: String!
+  clientMutationId: String
+}
+
+type makeGroupOwnerPayload {
+  userEdge: UserEdge
+  error: String
+  clientMutationId: String
+}
+
+type Mutation {
+  createUser(input: createUserInput!): createUserPayload
+  assignGroup(input: assignGroupInput!): assignGroupPayload
+  userToGroupOwner(input: makeGroupOwnerInput!): makeGroupOwnerPayload
+  createNote(input: createNoteInput!): createNotePayload
+  deleteNote(input: deleteNoteInput!): deleteNotePayload
+  login(input: AuthInput): AuthType
+  createGroup(input: createGroupInput!): createGroupPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Represents Note"""
+type Note implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """MongoDB _id"""
+  _id: String!
+  title: String
+  content: String
+  createdAt: String
+  updatedAt: String
+  group: Group
+}
+
+"""A connection to a list of items."""
+type NoteConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfoExtended!
+
+  """A list of edges."""
+  edges: [NoteEdge]!
+}
+
+"""An edge in a connection."""
+type NoteEdge {
+  """The item at the end of the edge"""
+  node: Note
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+"""Information about pagination in a connection."""
+type PageInfoExtended {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""Main query"""
+type Query {
+  """The ID of an object"""
+  id: ID!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  users(after: String, first: Int, before: String, last: Int, search: String): UserConnection!
+  note(id: ID!): Note
+  notes(after: String, first: Int, before: String, last: Int, search: String): NoteConnection!
+  groups(after: String, first: Int, before: String, last: Int, search: String): GroupConnection!
+}
+
+"""Represents user"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """MongoDB _id"""
+  _id: String!
+  username: String
+  email: String
+  createdAt: String
+  updatedAt: String
+  group_owner: Boolean
+  group: Group
+  admin: Boolean
+  notes: NoteConnection
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Number of items in this connection"""
+  count: Int!
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+    This allows a client to fetch the first five objects by passing "5" as the
+    argument to "first", then fetch the total count so it could display "5 of 83",
+    for example.
+  """
+  totalCount: Int!
+
+  """Offset from start"""
+  startCursorOffset: Int!
+
+  """Offset till end"""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfoExtended!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}

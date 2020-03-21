@@ -7,6 +7,7 @@ import { load } from '../NoteLoader';
 import { NoteConnection } from '../../rootType';
 
 import getUserId from '../../../util/getUser';
+import Mail from '../../../util/mail';
 
 interface noteArguments {
   title: string;
@@ -37,6 +38,14 @@ const mutation = mutationWithClientMutationId({
       content,
       group: user.group,
     });
+
+    /*
+        await Mail.sendMail({
+      to: user.email,
+      subject: 'New note on marknotes',
+      text: 'Note created successfully',
+    });
+    */
 
     return {
       id: newTodo._id,
