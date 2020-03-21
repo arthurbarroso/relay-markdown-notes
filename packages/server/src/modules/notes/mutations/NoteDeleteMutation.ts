@@ -9,37 +9,33 @@ import { NoteConnection } from '../../rootType';
 import getUserId from '../../../util/getUser';
 
 interface noteArguments {
-  title: string;
-  content: string;
+  _id: string;
 }
 
 const mutation = mutationWithClientMutationId({
-  name: 'createNote',
+  name: 'deleteNote',
   inputFields: {
-    title: {
-      type: GraphQLNonNull(GraphQLString),
-    },
-    content: {
+    _id: {
       type: GraphQLNonNull(GraphQLString),
     },
   },
   mutateAndGetPayload: async (args: noteArguments, context) => {
-    const { title, content } = args;
+    const { _id } = args;
     const userId = await getUserId(context.req);
     const user = await User.findOne({ _id: userId });
     if (!user.group) {
       throw new Error(
-        "You aren't in a group therefore you aren't allowed to create notes"
+        "You aren't in a group therefore you aren't allowed to do that"
       );
     }
-    const newTodo = await Note.create({
-      title,
-      content,
-      group: user.group,
-    });
+
+    const note = await Note.findOne({ _id });
+    if (!note.group === user.group)
+      throw new Error("You aren't allowed to delete notes outside your group");
+    const deleted = await Note.findOneAndDelete({ _id });
 
     return {
-      id: newTodo._id,
+      id: deleted._id,
       error: null,
     };
   },
@@ -47,13 +43,13 @@ const mutation = mutationWithClientMutationId({
     NoteEdge: {
       type: NoteConnection.edgeType,
       resolve: async ({ id }, _, context) => {
-        const newNote = await load(context, id);
+        const deletedNote = await load(context, id);
 
-        if (!newNote) return null;
+        if (!deletedNote) return null;
 
         return {
-          cursor: toGlobalId('Note', newNote._id),
-          node: newNote,
+          cursor: toGlobalId('Note', deletedNote._id),
+          node: deletedNote,
         };
       },
     },

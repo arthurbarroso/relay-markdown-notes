@@ -5,6 +5,8 @@ import Group, { GroupModel } from './GroupModel';
 import User, { UserModel } from '../users/UserModel';
 import { load as userloader } from '../users/UserLoader';
 import GraphQLContext from '../../types/GraphQLContext';
+import Note, { NoteModel } from '../notes/NoteModel';
+import { load as noteloader } from '../notes/NoteLoader';
 
 export default class NoteInterface {
   id: string;
@@ -75,16 +77,32 @@ export const loadGroups = async (
 
 export async function getGroupUsers(
   parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<UserModel> {
-  const notes = User.find({ group: parentValues._id });
+  args?: any,
+  context?: any,
+  info?: any
+) {
+  const users = User.find({ group: parentValues._id });
+  const t = await connectionFromMongoCursor({
+    cursor: users,
+    context,
+    args,
+    loader: userloader,
+  });
+  return t;
+}
+
+export async function getGroupNotes(
+  parentValues: any,
+  args?: any,
+  context?: any,
+  info?: any
+) {
+  const notes = Note.find({ group: parentValues._id });
   const t = await connectionFromMongoCursor({
     cursor: notes,
     context,
     args,
-    loader: userloader,
+    loader: noteloader,
   });
   return t;
 }

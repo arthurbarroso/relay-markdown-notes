@@ -19,7 +19,7 @@ import { NoteModel } from './notes/NoteModel';
 
 import { getNotes, getGroup } from './users/UserLoader';
 import { getGroup as getNoteGroup } from './notes/NoteLoader';
-import { getGroupUsers } from './groups/GroupLoader';
+import { getGroupUsers, getGroupNotes } from './groups/GroupLoader';
 import { GroupModel } from './groups/GroupModel';
 
 type UserConfigType = GraphQLObjectTypeConfig<UserModel, GraphQLContext>;
@@ -56,7 +56,7 @@ const UserTypeConfig: UserConfigType = {
     },
     group: {
       type: GroupType,
-      resolve: async user => getGroup(user, '', '', ''),
+      resolve: async user => getGroup(user),
     },
     admin: {
       type: GraphQLBoolean,
@@ -64,7 +64,7 @@ const UserTypeConfig: UserConfigType = {
     },
     notes: {
       type: NoteConnection.connectionType,
-      resolve: async user => getNotes(user, '', '', ''),
+      resolve: async user => getNotes(user),
     },
   }),
   interfaces: () => [nodeInterface],
@@ -107,7 +107,7 @@ const NoteTypeConfig: NoteConfigType = {
     },
     group: {
       type: GroupType,
-      resolve: async note => getNoteGroup(note, '', '', ''),
+      resolve: async note => getNoteGroup(note),
     },
   }),
   interfaces: () => [nodeInterface],
@@ -147,7 +147,11 @@ const GroupTypeConfig: GroupConfigType = {
     },
     users: {
       type: UserConnection.connectionType,
-      resolve: async group => getGroupUsers(group, '', '', ''),
+      resolve: async group => getGroupUsers(group),
+    },
+    notes: {
+      type: NoteConnection.connectionType,
+      resolve: async group => getGroupNotes(group),
     },
   }),
   interfaces: () => [nodeInterface],

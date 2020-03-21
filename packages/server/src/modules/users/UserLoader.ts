@@ -6,7 +6,7 @@ import GraphQLContext from '../../types/GraphQLContext';
 import Note, { NoteModel } from '../notes/NoteModel';
 import { load as noteloader } from '../notes/NoteLoader';
 import Group, { GroupModel } from '../groups/GroupModel';
-import { load as groupLoader } from '../groups/GroupLoader';
+// import { load as groupLoader } from '../groups/GroupLoader';
 
 export default class Userind {
   id: string;
@@ -89,10 +89,10 @@ export const loadUsers = async (
 
 export async function getNotes(
   parentValues: any,
-  args: any,
-  context: any,
-  info: any
-): Promise<NoteModel> {
+  args?: any,
+  context?: any,
+  info?: any
+) {
   const notes = Note.find({ group: parentValues.group });
   const t = await connectionFromMongoCursor({
     cursor: notes,
@@ -105,9 +105,9 @@ export async function getNotes(
 
 export async function getGroup(
   parentValues: any,
-  args: any,
-  context: any,
-  info: any
+  args?: any,
+  context?: any,
+  info?: any
 ): Promise<GroupModel> {
   const group = await Group.findOne({ _id: parentValues.group });
   return group;

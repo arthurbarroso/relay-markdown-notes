@@ -83,9 +83,9 @@ export const loadNotes = async (
 
 export async function getGroup(
   parentValues: any,
-  args: any,
-  context: any,
-  info: any
+  args?: any,
+  context?: any,
+  info?: any
 ): Promise<GroupModel> {
   const group = await Group.findOne({ _id: parentValues.group });
   return group;
