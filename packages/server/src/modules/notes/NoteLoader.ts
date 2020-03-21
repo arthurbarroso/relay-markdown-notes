@@ -3,6 +3,7 @@ import DataLoader from 'dataloader';
 import { ConnectionArguments } from 'graphql-relay';
 import Note, { NoteModel } from './NoteModel';
 import User, { UserModel } from '../users/UserModel';
+import Group, { GroupModel } from '../groups/GroupModel';
 import GraphQLContext from '../../types/GraphQLContext';
 import getUser from '../../util/getUser';
 
@@ -19,7 +20,7 @@ export default class NoteInterface {
 
   updatedAt: Date;
 
-  author: string;
+  group: string;
 
   constructor(data: NoteModel) {
     this.id = data.id || data._id;
@@ -28,7 +29,7 @@ export default class NoteInterface {
     this.content = data.content;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
-    this.author = data.author;
+    this.group = data.group;
   }
 }
 
@@ -56,15 +57,16 @@ export const loadNotes = async (
   args?: ConnectionArguments
 ) => {
   const userId = await getUser(context.req);
+  const user = await User.findOne({ _id: userId });
   const where = args.search
     ? {
       title: { //eslint-disable-line
         $regex: new RegExp(`^${args.search}`, 'ig'), //eslint-disable-line
       },//eslint-disable-line
-      author: userId, //eslint-disable-line
+      group: user.group, //eslint-disable-line
     }//eslint-disable-line
     : { //eslint-disable-line
-      author: userId, //eslint-disable-line
+      group: user.group, //eslint-disable-line
     }; //eslint-disable-line
   const todos = Note.find(where, { _id: 1 }).sort({
     createdAt: -1,
@@ -79,12 +81,12 @@ export const loadNotes = async (
   return t;
 };
 
-export async function findAuthor(
+export async function getGroup(
   parentValues: any,
   args: any,
   context: any,
   info: any
-): Promise<UserModel> {
-  const author = await User.findOne({ _id: parentValues.author });
-  return author;
+): Promise<GroupModel> {
+  const group = await Group.findOne({ _id: parentValues.group });
+  return group;
 }

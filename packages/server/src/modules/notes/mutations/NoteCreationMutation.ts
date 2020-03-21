@@ -2,6 +2,7 @@ import { GraphQLNonNull, GraphQLString, GraphQLBoolean } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 
 import Note from '../NoteModel';
+import User from '../../users/UserModel';
 import { load } from '../NoteLoader';
 import { NoteConnection } from '../../rootType';
 
@@ -24,11 +25,19 @@ const mutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: async (args: noteArguments, context) => {
     const { title, content } = args;
-    const user = await getUserId(context.req);
+    const userId = await getUserId(context.req);
+    console.log(userId);
+    const user = await User.findOne({ _id: userId });
+    console.log(user);
+    if (!user.group) {
+      throw new Error(
+        "You aren't in a group therefore you aren't allowed to create notes"
+      );
+    }
     const newTodo = await Note.create({
       title,
       content,
-      author: user,
+      group: user.group,
     });
 
     return {

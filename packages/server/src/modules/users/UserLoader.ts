@@ -93,7 +93,7 @@ export async function getNotes(
   context: any,
   info: any
 ): Promise<NoteModel> {
-  const notes = Note.find({ author: parentValues._id });
+  const notes = Note.find({ group: parentValues.group });
   const t = await connectionFromMongoCursor({
     cursor: notes,
     context,
@@ -109,6 +109,6 @@ export async function getGroup(
   context: any,
   info: any
 ): Promise<GroupModel> {
-  const group = await Group.find({ id: parentValues.group });
+  const group = await Group.findOne({ _id: parentValues.group });
   return group;
 }

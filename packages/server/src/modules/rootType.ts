@@ -17,8 +17,9 @@ import { connectionDefinitions } from '../types/ConnectionType';
 import { UserModel } from './users/UserModel';
 import { NoteModel } from './notes/NoteModel';
 
-import { findAuthor } from './notes/NoteLoader';
 import { getNotes, getGroup } from './users/UserLoader';
+import { getGroup as getNoteGroup } from './notes/NoteLoader';
+import { getGroupUsers } from './groups/GroupLoader';
 import { GroupModel } from './groups/GroupModel';
 
 type UserConfigType = GraphQLObjectTypeConfig<UserModel, GraphQLContext>;
@@ -104,9 +105,9 @@ const NoteTypeConfig: NoteConfigType = {
       type: GraphQLString,
       resolve: note => note.updatedAt,
     },
-    author: {
-      type: GraphQLNonNull(UserType),
-      resolve: note => findAuthor(note, '', '', ''),
+    group: {
+      type: GroupType,
+      resolve: async note => getNoteGroup(note, '', '', ''),
     },
   }),
   interfaces: () => [nodeInterface],
@@ -143,6 +144,10 @@ const GroupTypeConfig: GroupConfigType = {
     name: {
       type: GraphQLString,
       resolve: group => group.name,
+    },
+    users: {
+      type: UserConnection.connectionType,
+      resolve: async group => getGroupUsers(group, '', '', ''),
     },
   }),
   interfaces: () => [nodeInterface],

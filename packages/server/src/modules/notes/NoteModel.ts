@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 export type NoteModel = Document & {
   title: string;
   content: string;
-  author: String;
+  group: String;
 };
 
 const NoteSchema = new Schema(
@@ -16,7 +16,7 @@ const NoteSchema = new Schema(
       type: String,
       hidden: true,
     },
-    author: {
+    group: {
       type: String,
       required: true,
     },

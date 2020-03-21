@@ -2,6 +2,8 @@ import { mongooseLoader, connectionFromMongoCursor } from "@entria/graphql-mongo
 import DataLoader from 'dataloader';
 import { ConnectionArguments } from 'graphql-relay';
 import Group, { GroupModel } from './GroupModel';
+import User, { UserModel } from '../users/UserModel';
+import { load as userloader } from '../users/UserLoader';
 import GraphQLContext from '../../types/GraphQLContext';
 
 export default class NoteInterface {
@@ -70,3 +72,19 @@ export const loadGroups = async (
 
   return t;
 };
+
+export async function getGroupUsers(
+  parentValues: any,
+  args: any,
+  context: any,
+  info: any
+): Promise<UserModel> {
+  const notes = User.find({ group: parentValues._id });
+  const t = await connectionFromMongoCursor({
+    cursor: notes,
+    context,
+    args,
+    loader: userloader,
+  });
+  return t;
+}
