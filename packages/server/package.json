@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.4",
     "nodemailer": "^6.4.6",
-    "nodemailer-express-handlebars": "^3.3.0"
+    "nodemailer-express-handlebars": "^3.3.0",
+    "yup": "^0.28.3"
   }
 }

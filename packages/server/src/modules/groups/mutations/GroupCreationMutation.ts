@@ -1,5 +1,6 @@
 import { GraphQLNonNull, GraphQLString, GraphQLBoolean } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
+import * as Yup from 'yup';
 
 import Group from '../GroupModel';
 import { load } from '../GroupLoader';
@@ -25,6 +26,18 @@ const mutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async (args: groupArguments, context) => {
+    const schema = Yup.object().shape({
+      name: Yup.string()
+        .required()
+        .min(4),
+      secret: Yup.string()
+        .required()
+        .min(6),
+    });
+    if (!(await schema.isValid(args)))
+      throw new Error(
+        "Validation failed: the name's length should be 4+ and the scret's length should be 6+"
+      );
     const { name, secret } = args;
 
     const user = await getUserId(context.req);

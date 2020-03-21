@@ -1,7 +1,7 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import bcrypt from 'bcryptjs';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
-
+import * as Yup from 'yup';
 import User from '../UserModel';
 import Group from '../../groups/GroupModel';
 import { load } from '../UserLoader';
@@ -27,6 +27,14 @@ const mutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async (args: GroupAssign, context: GraphQLContext) => {
+    const schema = Yup.object().shape({
+      groupId: Yup.string().required(),
+      secret: Yup.string()
+        .required()
+        .min(6),
+    });
+    if (!(await schema.isValid(args))) throw new Error('Validation failed');
+
     const { groupId, secret } = args;
     const _id = groupId;
     const group = await Group.findOne({

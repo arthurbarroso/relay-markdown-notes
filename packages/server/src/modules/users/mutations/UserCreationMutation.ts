@@ -1,6 +1,6 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
-
+import * as Yup from 'yup';
 import User from '../UserModel';
 import { load } from '../UserLoader';
 import { UserConnection } from '../../rootType';
@@ -29,6 +29,19 @@ const mutation = mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async (args: userArguments) => {
+    const schema = Yup.object().shape({
+      username: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      password: Yup.string()
+        .required()
+        .min(6),
+    });
+    if (!(await schema.isValid(args)))
+      throw new Error(
+        'Validation failed: make sure you are typing a valid e-mail and using a 6+ length password'
+      );
     const { username, email, password } = args;
 
     const emailExists = await User.findOne({ email });
