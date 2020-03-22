@@ -15,11 +15,15 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }: Props) {
-  const signed = localStorage.getItem(
+  /*
+
+    const signed = localStorage.getItem(
     process.env.STORAGE_ITEM_KEY
       ? process.env.STORAGE_ITEM_KEY
       : 'appnoteerelay'
   );
+  */
+  const signed = false;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
