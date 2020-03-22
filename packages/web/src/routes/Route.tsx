@@ -3,6 +3,8 @@ import { Redirect, Route } from 'react-router-dom';
 
 import DefaultLayout from '../pages/_layout';
 
+import { TOKEN_STORAGE_CONSTANT } from '../constants';
+
 type Props = {
   component: React.ReactType;
   isPrivate?: boolean;
@@ -15,15 +17,7 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }: Props) {
-  /*
-
-    const signed = localStorage.getItem(
-    process.env.STORAGE_ITEM_KEY
-      ? process.env.STORAGE_ITEM_KEY
-      : 'appnoteerelay'
-  );
-  */
-  const signed = false;
+  const signed: boolean = !!localStorage.getItem(TOKEN_STORAGE_CONSTANT);
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
