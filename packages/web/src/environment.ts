@@ -1,14 +1,12 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { TOKEN_STORAGE_CONSTANT } from './constants';
 
 function fetchQuery(operation: any, variables: any) {
-  return fetch("https://arthurbarroso.tools/", { //eslint-disable-line
+  return fetch("http://localhost:4000/", { //eslint-disable-line
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem(
-        process.env.STORAGE_ITEM_KEY
-          ? process.env.STORAGE_ITEM_KEY
-          : 'COOLSTORAGEITEM')}` //eslint-disable-line
+      Authorization: `Bearer ${localStorage.getItem(TOKEN_STORAGE_CONSTANT)}` //eslint-disable-line
     },
     body: JSON.stringify({
       query: operation.text,

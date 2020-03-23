@@ -58,6 +58,7 @@ export const loadNotes = async (
 ) => {
   const userId = await getUser(context.req);
   const user = await User.findOne({ _id: userId });
+  // console.log(user);
   const where = args.search
     ? {
       title: { //eslint-disable-line
@@ -68,6 +69,8 @@ export const loadNotes = async (
     : { //eslint-disable-line
       group: user.group, //eslint-disable-line
     }; //eslint-disable-line
+
+
   const todos = Note.find(where, { _id: 1 }).sort({
     createdAt: -1,
   });

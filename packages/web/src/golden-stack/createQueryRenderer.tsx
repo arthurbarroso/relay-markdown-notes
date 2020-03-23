@@ -100,7 +100,7 @@ export default function createQueryRenderer(
               return <FragmentComponent {...this.props} query={{}} isLoading />;
             }
 
-            return <span>Loading...</span>;
+            return <div />;
           }}
         />
       );
