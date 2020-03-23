@@ -54,7 +54,8 @@ module.exports = {
     "no-use-before-define": "off",
     "react/jsx-filename-extension": "off",
     "react/state-in-constructor": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/no-unescaped-entities": "off"
   },
   "overrides": [
     {

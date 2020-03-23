@@ -6,18 +6,12 @@ import { commitMutation } from 'react-relay';
 import environment from '../environment';
 import { TOKEN_STORAGE_CONSTANT } from '../constants';
 
-import { Container, FormWrapper } from './styles/LoginStyles';
+import { Container, FormWrapper } from './styles/AuthStyles';
 
 import {
   LoginMutationResponse,
   LoginMutation,
 } from './__generated__/LoginMutation.graphql';
-
-interface dProps {
-  login: {
-    token: String;
-  };
-}
 
 const mutation = graphql`
   mutation LoginMutation($input: AuthInput!) {
@@ -73,7 +67,7 @@ export default function Login() {
         <button type="button" onClick={() => commit(username, password)}>
           Login
         </button>
-        <Link to="/">Go back</Link>
+        <Link to="/register">Doesn't have an account? Register now</Link>
       </FormWrapper>
     </Container>
   );
