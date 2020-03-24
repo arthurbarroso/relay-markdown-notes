@@ -22,8 +22,7 @@ users can register and admins can make them group owners. group owners can creat
 
 notes and users are connections inside groups. 
 
-done:
-users can register
-users can be assigned group_owner prop by admin
-group_owners can create groups
-users can join groups
+still missing:
+users groupassign page
+userowner page
+not sure if i want to implement those lol

@@ -10,10 +10,9 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8%;
 
   .backbutton {
-    width: 120%;
+    width: 100%;
     border-radius: 2%;
     background: #f5f5f5;
     border: 0;
@@ -26,9 +25,8 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled(Animated)`
-  margin-top: 20%;
-  max-width: 357px;
-
+  width: 100%;
+  max-width: 420px;
   input {
     width: 100%;
     height: 36px;
@@ -74,31 +72,5 @@ export const Content = styled.div`
   h2 {
     font-weight: normal;
     margin-bottom: 4%;
-  }
-`;
-
-export const EditorWrapper = styled.div`
-  margin-top: 15%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #f5f5f5;
-  padding: 2% 5%;
-
-  input {
-    width: 100%;
-    margin-bottom: 4%;
-    border-radius: 2%;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 5%;
-    border-radius: 2%;
-  }
-
-  .wrapper {
-    max-width: 420px;
   }
 `;

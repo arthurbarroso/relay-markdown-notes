@@ -63,6 +63,11 @@ function NoteRefetch(props: RelayProps) {
           onChange={e => setTerms(e.target.value)}
           placeholder="query by note title"
         />
+        <Link to="/create">
+          <button className="loadbutton" type="button">
+            <h1>NEW NOTE</h1>
+          </button>
+        </Link>
         <button className="loadbutton" onClick={() => loadMore()} type="button">
           <h1>LOAD MORE NOTES</h1>
         </button>

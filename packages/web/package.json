@@ -17,6 +17,7 @@
     "@types/react-relay": "^7.0.3",
     "@types/react-router-dom": "^5.1.3",
     "@types/relay-runtime": "^8.0.6",
+    "@types/showdown": "^1.9.3",
     "@types/styled-components": "^5.0.1",
     "animate.css": "^3.7.2",
     "babel-plugin-relay": "^9.0.0",
@@ -37,6 +38,7 @@
     "relay-compiler": "^9.0.0",
     "relay-compiler-language-typescript": "^12.0.0",
     "relay-runtime": "^9.0.0",
+    "showdown": "^1.9.1",
     "styled-components": "^5.0.1",
     "typescript": "~3.7.2"
   },
