@@ -68,7 +68,7 @@ function NoteRefetch(props: RelayProps) {
         </button>
         {props?.query.notes.edges.map(item => (
           <div key={item?.node?.id}>
-            <Link to={`/notes/${item?.node?.id}`}>
+            <Link to={`/note/${item?.node?.id}`}>
               <button type="button">{item?.node?.title}</button>
             </Link>
           </div>
