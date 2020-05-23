@@ -36,7 +36,7 @@
     "react-scripts": "3.4.0",
     "react-toastify": "^5.5.0",
     "relay-compiler": "^9.0.0",
-    "relay-compiler-language-typescript": "^12.0.0",
+    "relay-compiler-language-typescript": "^12.0.3",
     "relay-runtime": "^9.0.0",
     "showdown": "^1.9.1",
     "styled-components": "^5.0.1",
@@ -62,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "relay-compiler-language-typescript": "^12.0.3",
     "relay-config": "^9.0.0"
   }
 }

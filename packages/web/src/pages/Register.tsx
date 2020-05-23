@@ -8,7 +8,7 @@ import history from '../routes/history';
 
 import { Container, FormWrapper } from './styles/AuthStyles';
 
-import { RegisterMutation } from './__generated__/RegisterMutation.graphql';
+import { RegisterMutation } from '../__generated__/RegisterMutation.graphql';
 
 const mutation = graphql`
   mutation RegisterMutation($input: createUserInput!) {

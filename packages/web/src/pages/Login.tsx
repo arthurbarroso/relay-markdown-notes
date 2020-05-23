@@ -11,7 +11,7 @@ import { Container, FormWrapper } from './styles/AuthStyles';
 import {
   LoginMutationResponse,
   LoginMutation,
-} from './__generated__/LoginMutation.graphql';
+} from '../__generated__/LoginMutation.graphql';
 
 const mutation = graphql`
   mutation LoginMutation($input: AuthInput!) {

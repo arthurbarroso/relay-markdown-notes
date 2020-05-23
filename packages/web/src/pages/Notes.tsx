@@ -9,7 +9,7 @@ import graphql from 'babel-plugin-relay/macro';
 
 import createQueryRenderer from '../golden-stack/createQueryRenderer';
 
-import { Notes_query } from './__generated__/Notes_query.graphql';
+import { Notes_query } from '../__generated__/Notes_query.graphql';
 
 import { Container, Wrapper } from './styles/ListStyles';
 
